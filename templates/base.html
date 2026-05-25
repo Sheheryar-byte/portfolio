@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Sheheryar Portfolio</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-orange': '#FD853A',
+                        'brand-dark': '#151515',
+                        'brand-dark-medium': '#171717',
+                        'brand-dark-light': '#1E1E1E',
+                        'brand-gray-50': '#F3F4F6',
+                        'brand-gray-100': '#E5E7EB',
+                        'brand-gray-200': '#D1D5DB',
+                        'brand-gray-300': '#9CA3AF',
+                        'brand-gray-400': '#6B7280',
+                        'brand-gray-500': '#4B5563',
+                        'brand-gray-600': '#374151',
+                        'brand-gray-700': '#1F2937',
+                    },
+                    fontFamily: {
+                        'urbanist': ['Urbanist', 'sans-serif'],
+                        'lufga': ['Urbanist', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen bg-white font-urbanist">
+    <!-- Navigation -->
+    <nav class="fixed top-4 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-[96%] md:w-[94%] max-w-[1400px]">
+        <div
+            class="flex items-center justify-between px-6 py-4 bg-brand-dark rounded-[40px] md:rounded-[60px] border border-white/10 backdrop-blur-[10px] relative">
+
+            <!-- Left Side: Desktop Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/"
+                    class="px-6 py-3 rounded-full transition-all {% if title == 'Home' %}bg-brand-orange text-white font-bold{% else %}text-white/80 hover:text-white{% endif %}">
+                    Home
+                </a>
+                <a href="/about"
+                    class="text-white/80 hover:text-white transition-all {% if title == 'About Me' %}font-bold text-white{% endif %}">
+                    About
+                </a>
+                <a href="/service"
+                    class="text-white/80 hover:text-white transition-all {% if title == 'My Services' %}font-bold text-white{% endif %}">
+                    Services
+                </a>
+            </div>
+
+            <!-- Center: Logo -->
+            <div class="flex items-center gap-3 absolute left-1/2 transform -translate-x-1/2">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-orange flex items-center justify-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2ZM16 14.5C16 15.328 15.328 16 14.5 16H9.5C8.672 16 8 15.328 8 14.5V9.5C8 8.672 8.672 8 9.5 8H14.5C15.328 8 16 8.672 16 9.5V14.5Z"
+                            fill="white" />
+                    </svg>
+                </div>
+                <span class="text-white text-xl md:text-2xl font-bold tracking-tight uppercase">Sheheryar</span>
+            </div>
+
+            <!-- Right Side: Desktop Links & Mobile Toggle -->
+            <div class="flex items-center gap-1">
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="/portfolio"
+                        class="text-white/80 hover:text-white transition-all {% if title == 'Portfolio' %}font-bold text-white{% endif %}">
+                        Portfolio
+                    </a>
+                    <a href="/blog"
+                        class="text-white/80 hover:text-white transition-all {% if title == 'Blog' %}font-bold text-white{% endif %}">
+                        Blog
+                    </a>
+                    <a href="/certificates"
+                        class="text-white/80 hover:text-white transition-all {% if title == 'Certificates' %}font-bold text-white{% endif %}">
+                        Certs
+                    </a>
+                    <a href="/resume" class="text-white/80 hover:text-white transition-all">
+                        Resume
+                    </a>
+                </div>
+
+                <!-- Mobile Toggle -->
+                <button id="mobile-menu-toggle" class="md:hidden flex items-center justify-center w-10 h-10 text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path id="hamburger-icon" class="block" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Dropdown -->
+            <div id="mobile-dropdown"
+                class="absolute top-[calc(100%+10px)] left-0 w-full bg-brand-dark rounded-3xl border border-white/10 p-4 flex flex-col gap-2 transform origin-top scale-y-0 opacity-0 transition-all duration-300 md:hidden z-50">
+                <a href="/"
+                    class="px-6 py-3 rounded-2xl {% if title == 'Home' %}bg-brand-orange text-white{% else %}text-white/70{% endif %}">Home</a>
+                <a href="/about"
+                    class="px-6 py-3 rounded-2xl {% if title == 'About Me' %}bg-brand-orange text-white{% else %}text-white/70{% endif %}">About</a>
+                <a href="/service"
+                    class="px-6 py-3 rounded-2xl {% if title == 'My Services' %}bg-brand-orange text-white{% else %}text-white/70{% endif %}">Services</a>
+                <a href="/portfolio"
+                    class="px-6 py-3 rounded-2xl {% if title == 'Portfolio' %}bg-brand-orange text-white{% else %}text-white/70{% endif %}">Portfolio</a>
+                <a href="/blog"
+                    class="px-6 py-3 rounded-2xl {% if title == 'Blog' %}bg-brand-orange text-white{% else %}text-white/70{% endif %}">Blog</a>
+                <a href="/certificates"
+                    class="px-6 py-3 rounded-2xl {% if title == 'Certificates' %}bg-brand-orange text-white{% else %}text-white/70{% endif %}">Certificates</a>
+                <a href="/resume" class="px-6 py-3 rounded-2xl text-white/70">Resume</a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('mobile-menu-toggle');
+            const dropdown = document.getElementById('mobile-dropdown');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
+
+            toggleBtn.addEventListener('click', () => {
+                const isOpen = dropdown.classList.contains('scale-y-100');
+                if (isOpen) {
+                    dropdown.classList.replace('scale-y-100', 'scale-y-0');
+                    dropdown.classList.replace('opacity-100', 'opacity-0');
+                    hamburgerIcon.classList.replace('hidden', 'block');
+                    closeIcon.classList.replace('block', 'hidden');
+                } else {
+                    dropdown.classList.replace('scale-y-0', 'scale-y-100');
+                    dropdown.classList.replace('opacity-0', 'opacity-100');
+                    hamburgerIcon.classList.replace('block', 'hidden');
+                    closeIcon.classList.replace('hidden', 'block');
+                }
+            });
+
+            // Auto-dismiss flash messages
+            const flashMessages = document.querySelectorAll('.fixed .pointer-events-auto');
+            if (flashMessages.length > 0) {
+                setTimeout(() => {
+                    flashMessages.forEach(msg => {
+                        msg.style.opacity = '0';
+                        msg.style.transform = 'translateX(100%)';
+                        setTimeout(() => msg.remove(), 300); // Remove after transition
+                    });
+                }, 5000); // 5 seconds
+            }
+        });
+    </script>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="fixed top-24 right-4 z-[60] flex flex-col gap-2 pointer-events-none">
+        {% for category, message in messages %}
+        <div class="pointer-events-auto px-6 py-4 rounded-xl shadow-2xl border border-white/20 backdrop-blur-md
+                {% if category == 'success' %}bg-green-500/90 text-white{% elif category == 'error' %}bg-red-500/90 text-white{% else %}bg-brand-orange/90 text-white{% endif %} 
+                transition-all duration-300 transform translate-x-0">
+            <div class="flex items-center gap-3">
+                {% if category == 'success' %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                {% elif category == 'error' %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                {% endif %}
+                <span class="font-medium">{{ message }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer
+        class="flex flex-col justify-between items-start px-6 md:px-[71px] py-12 gap-12 self-stretch rounded-t-[50px] bg-brand-dark-light overflow-hidden mt-20">
+        <div class="flex flex-col md:flex-row justify-between items-center w-full gap-8">
+            <h2
+                class="flex flex-col justify-center text-brand-gray-50 text-4xl md:text-[64px] font-semibold leading-[1.1] tracking-tight max-w-[700px] text-center md:text-left">
+                Let's connect and build something great</h2>
+            <a href="/about"
+                class="flex px-8 py-4 md:px-10 md:py-5 justify-center items-center gap-2.5 rounded-[60px] bg-brand-orange transition-all hover:scale-105">
+                <span class="text-white text-xl md:text-[26px] font-medium leading-normal tracking-tight">Hire me</span>
+                <svg width="32" height="32" md:width="42" md:height="42" viewBox="0 0 42 42" fill="none" stroke="white"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12.25 29.75L29.75 12.25" />
+                    <path d="M12.25 12.25H29.75V29.75" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="w-full h-px bg-brand-gray-600 opacity-30"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 w-full">
+            <div class="flex flex-col gap-8">
+                <div class="flex items-center gap-2.5">
+                    <div class="flex items-center justify-center w-[46px] h-[46px] rounded-full bg-brand-orange">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <circle cx="12" cy="12" r="4" />
+                        </svg>
+                    </div>
+                    <span class="text-white text-2xl font-bold tracking-tighter uppercase">Sheheryar</span>
+                </div>
+                <p class="text-brand-gray-300 text-lg leading-relaxed">
+                    Full Stack Developer & AI Specialist building intelligent web applications.
+                    I specialize in scalable architecture and user-centric design.
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <h3 class="text-brand-orange text-xl font-bold uppercase tracking-wider">Navigation</h3>
+                <div class="flex flex-col gap-3 text-brand-gray-100 text-lg font-medium">
+                    <a href="/" class="hover:text-brand-orange transition-colors">Home</a>
+                    <a href="/about" class="hover:text-brand-orange transition-colors">About Us</a>
+                    <a href="/service" class="hover:text-brand-orange transition-colors">Service</a>
+                    <a href="/portfolio" class="hover:text-brand-orange transition-colors">Portfolio</a>
+                    <a href="/certificates" class="hover:text-brand-orange transition-colors">Certificates</a>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <h3 class="text-brand-orange text-xl font-bold uppercase tracking-wider">Contact</h3>
+                <div class="flex flex-col gap-3 text-brand-gray-100 text-lg font-medium">
+                    <span>Islamabad, Pakistan</span>
+                    <span>thesheheryaranmad767@gmail.com</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <h3 class="text-brand-orange text-xl font-bold uppercase tracking-wider">Get the latest</h3>
+                <form action="/subscribe" method="POST" class="flex w-full">
+                    <input type="email" name="email" placeholder="Email Address" required
+                        class="w-full px-6 py-4 rounded-l-2xl bg-white text-brand-dark focus:outline-none placeholder:text-brand-gray-400">
+                    <button type="submit"
+                        class="bg-brand-orange px-6 py-4 rounded-r-2xl text-white transition-all hover:bg-opacity-90">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13" />
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="w-full h-px bg-brand-gray-600 opacity-30"></div>
+
+        <div
+            class="flex flex-col md:flex-row items-center justify-between w-full text-brand-gray-400 text-center md:text-left text-base md:text-lg gap-6">
+            <span>Copyright © 2024 Sheheryar Ahmad. All Rights Reserved.</span>
+            <div class="flex gap-8">
+                <a href="#" class="hover:text-white transition-colors">Terms & Conditions</a>
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

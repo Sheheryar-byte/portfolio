@@ -1,0 +1,777 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  /* ── Pipeflow post scoped styles ── */
+  .pf-wrap {
+    --bg-code:    #1a1e26;
+    --border:     rgba(0, 0, 0, 0.08);
+    --accent:     #FD853A;
+    --accent-dim: rgba(253, 133, 58, 0.1);
+    --accent-dim2:rgba(253, 133, 58, 0.05);
+    --text:       #4B5563;
+    --text-muted: #6B7280;
+    --text-faint: #9CA3AF;
+    --serif:      'Lora', Georgia, serif;
+    --mono:       'JetBrains Mono', monospace;
+    background: #ffffff;
+    color: var(--text);
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    padding-top: 8rem;
+    padding-bottom: 6rem;
+  }
+
+  .pf-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  #pf-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: #FD853A;
+    transition: width 0.1s linear;
+    z-index: 200;
+  }
+
+  /* Header */
+  .pf-header {
+    padding: 0 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .pf-tag {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #FD853A;
+    margin-bottom: 1rem;
+  }
+
+  .pf-wrap h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #151515;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .pf-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0 1.5rem;
+    font-size: 14px;
+    color: #6B7280;
+    font-weight: 500;
+  }
+
+  .pf-meta .pf-dot-sep {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #FD853A;
+    display: inline-block;
+  }
+
+  /* Body typography */
+  .pf-wrap p {
+    margin-bottom: 1.4rem;
+    color: #4B5563;
+  }
+
+  .pf-wrap h2 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #151515;
+    margin: 3rem 0 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: -0.01em;
+  }
+
+
+
+  .pf-wrap strong {
+    color: #151515;
+    font-weight: 700;
+  }
+
+  .pf-wrap a {
+    color: #FD853A;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(253, 133, 58, 0.3);
+    transition: border-color 0.2s;
+  }
+
+  .pf-wrap a:hover {
+    border-color: #FD853A;
+  }
+
+  /* Inline code */
+  .pf-wrap code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: rgba(253, 133, 58, 0.08);
+    border: 1px solid rgba(253, 133, 58, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #c0440a;
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "calt" 0;
+  }
+
+  /* Blockquote */
+  .pf-wrap blockquote {
+    margin: 2.5rem 0;
+    padding: 1.25rem 1.75rem;
+    border-left: 3px solid #FD853A;
+    background: rgba(253, 133, 58, 0.04);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .pf-wrap blockquote p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #374151;
+    margin: 0;
+  }
+
+  /* Code blocks */
+  .pf-code-block {
+    margin: 1.75rem 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background: var(--bg-code);
+  }
+
+  .pf-code-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.05em;
+  }
+
+  .pf-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .pf-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .pf-dot:nth-child(1) {
+    background: #ff6b6b;
+  }
+
+  .pf-dot:nth-child(2) {
+    background: #ffd166;
+  }
+
+  .pf-dot:nth-child(3) {
+    background: #7effd4;
+  }
+
+  .pf-code-block pre {
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.75;
+    margin: 0;
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "calt" 0;
+  }
+
+  .pf-code-block pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  /* Syntax colours */
+  .kw {
+    color: #c678dd;
+  }
+
+  .fn {
+    color: #61afef;
+  }
+
+  .st {
+    color: #98c379;
+  }
+
+  .cm {
+    color: #5c6370;
+    font-style: italic;
+  }
+
+  .op {
+    color: #7effd4;
+  }
+
+  .nm {
+    color: #e5c07b;
+  }
+
+  /* Before/After compare */
+  .pf-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 560px) {
+    .pf-compare {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pf-compare-card {
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .pf-compare-hdr {
+    padding: 0.5rem 1rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pf-compare-hdr.bad {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+    border-bottom: 1px solid rgba(255, 107, 107, 0.2);
+  }
+
+  .pf-compare-hdr.good {
+    background: rgba(126, 255, 212, 0.08);
+    color: #7effd4;
+    border-bottom: 1px solid rgba(126, 255, 212, 0.15);
+  }
+
+  .pf-compare-card pre {
+    padding: 1rem;
+    background: var(--bg-code);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  /* Callout */
+  .pf-callout {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: rgba(253, 133, 58, 0.05);
+    border: 1px solid rgba(253, 133, 58, 0.2);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 2rem 0;
+  }
+
+  .pf-callout-icon {
+    font-size: 1.1rem;
+    line-height: 1.75;
+    flex-shrink: 0;
+  }
+
+  .pf-callout p {
+    margin: 0;
+    font-size: 15px;
+    color: #92400e;
+  }
+
+  /* Feature grid */
+  .pf-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin: 1.5rem 0 2rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .pf-features li {
+    background: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: #4B5563;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pf-features li::before {
+    content: '→';
+    color: #FD853A;
+  }
+
+  /* Install strip */
+  .pf-install {
+    margin: 3rem 0;
+    background: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .pf-install-label {
+    font-size: 13px;
+    color: #6B7280;
+    margin-bottom: 4px;
+  }
+
+  .pf-install-cmd {
+    font-family: var(--mono);
+    font-size: 15px;
+    color: #151515;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+
+  .pf-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .pf-pill {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 30px;
+    border: 1px solid rgba(253, 133, 58, 0.35);
+    color: #FD853A;
+    background: rgba(253, 133, 58, 0.08);
+    text-decoration: none;
+    border-bottom: none;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .pf-pill:hover {
+    background: rgba(253, 133, 58, 0.18);
+    border-bottom: none;
+  }
+
+  /* Article footer */
+  .pf-footer {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #E5E7EB;
+    font-size: 13px;
+    color: #9CA3AF;
+    font-family: var(--mono);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .pf-footer a {
+    color: #6B7280;
+    border-bottom-color: transparent;
+  }
+
+  .pf-footer a:hover {
+    color: #FD853A;
+  }
+
+  /* Back link */
+  .pf-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #FD853A;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    border-bottom: none;
+    margin-bottom: 2rem;
+    transition: gap 0.2s;
+  }
+
+  .pf-back:hover {
+    gap: 0.75rem;
+    border-bottom: none;
+  }
+
+  /* Hero image */
+  .pf-hero {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  }
+
+  .pf-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .pf-hero:hover img {
+    transform: scale(1.03);
+  }
+
+  /* h3 label */
+  .pf-h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #FD853A;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 2rem 0 0.75rem;
+  }
+</style>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
+  rel="stylesheet">
+
+<div id="pf-progress"></div>
+
+<div class="pf-wrap">
+  <div class="pf-inner">
+
+    <!-- Back link -->
+    <a href="/blog" class="pf-back">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Back to Blog
+    </a>
+
+    <header class="pf-header">
+      <span class="pf-tag">Open Source · Python</span>
+      <h1>Python's pipe problem — and how I solved it</h1>
+      <div class="pf-meta">
+        <span>May 2026</span>
+        <span class="pf-dot-sep"></span>
+        <span>8 min read</span>
+      </div>
+    </header>
+
+    <!-- Hero image -->
+    <div class="pf-hero">
+      <img src="/static/images/blogs/blogpic.jpeg" alt="Python pipe problem — pipeflow library">
+    </div>
+
+    <!-- Intro -->
+    <p>
+      It started with a thread I came across on r/Python. Someone asked a question
+      that gets asked at least twice a year in the Python community: <em>will Python
+        ever get a pipe operator?</em>
+    </p>
+    <p>
+      The replies were familiar — technically sharp, slightly resigned. Yes, the problem
+      is real. No, the core team won't add <code>&#124;&#62;</code>. Here's why, here are your
+      workarounds, good luck.
+    </p>
+    <p>
+      I didn't close the tab. I started asking a different question: what if the
+      core team is right <em>and</em> the problem is still worth solving?
+    </p>
+
+    <!-- The problem -->
+    <h2>The problem with nested function calls</h2>
+    <p>
+      In most languages with functional roots — Elixir, F#, Haskell, even JavaScript
+      with the right libraries — you can write data transformations that read the way
+      they execute: left to right, top to bottom, like an assembly line.
+    </p>
+    <p>Python doesn't have this. When you chain multiple transformations, the standard approach looks like this:</p>
+
+    <div class="pf-code-block">
+      <div class="pf-code-label">
+        <div class="pf-dots">
+          <div class="pf-dot"></div>
+          <div class="pf-dot"></div>
+          <div class="pf-dot"></div>
+        </div>
+        <span>before.py</span>
+      </div>
+      <pre><span class="cm"># Read this inside-out. Find the data first.</span>
+<span class="nm">result</span> <span class="op">=</span> <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> x: x <span class="op">&gt;</span> <span class="nm">5</span>, <span class="fn">map</span>(<span class="kw">lambda</span> x: x <span class="op">**</span> <span class="nm">2</span>, <span class="fn">range</span>(<span class="nm">10</span>))))</pre>
+    </div>
+
+    <p>
+      To understand what's happening, you have to start in the middle, work outward,
+      and mentally track the parentheses. Now add two more steps. Now hand it to a
+      colleague. Now come back to it yourself after three weeks.
+    </p>
+
+    <blockquote>
+      <p>
+        The best ones are hiding in plain sight — in threads where smart people
+        complain about something and then accept it as unsolvable.
+      </p>
+    </blockquote>
+
+    <p>
+      List comprehensions are often suggested as an alternative. They work beautifully
+      for simple cases. But past one or two operations, a comprehension becomes its
+      own puzzle. The structure that was meant to clarify starts to obscure.
+    </p>
+
+    <!-- Why core team says no -->
+    <h2>Why the core team keeps saying no</h2>
+    <p>This isn't stubbornness — the reasons are genuinely solid. There are three hard problems stacked on top of each
+      other.</p>
+
+    <p class="pf-h3">1 — Eager evaluation</p>
+    <p>
+      In languages where <code>&#124;&#62;</code> works well, the right-hand side is lazy.
+      It waits for data. In Elixir, <code>data &#124;&#62; map(func)</code> works because
+      <code>map(func)</code> is a partially applied function holding its breath.
+      Python evaluates eagerly — <code>map(func)</code> would throw immediately
+      because the iterable argument is missing. Making pipes work would require
+      Python to silently rewrite your code at parse time, which violates one of
+      the language's deepest principles.
+    </p>
+
+    <p class="pf-h3">2 — Auto-currying</p>
+    <p>
+      To solve eager evaluation you need partial application — functions that accept
+      arguments one at a time and wait. Haskell does this automatically. Python
+      doesn't, and the core team has never wanted it to. Adding currying
+      to support a pipe operator would be a much larger change than the operator itself.
+    </p>
+
+    <p class="pf-h3">3 — Argument order inconsistency</p>
+    <p>
+      Even if you solved evaluation and currying, stdlib functions don't agree on
+      where the iterable goes. <code>map(func, data)</code>. <code>filter(func, data)</code>.
+      But <code>''.join(data)</code>. A pipe operator would have to pick a convention
+      and break everyone's expectations for the cases it doesn't fit.
+    </p>
+
+    <div class="pf-callout">
+      <div class="pf-callout-icon">💡</div>
+      <p>
+        The core team isn't wrong. But being right about why a native solution is hard
+        doesn't mean the readability problem disappears. Those are two separate questions.
+      </p>
+    </div>
+
+    <!-- The insight -->
+    <h2>The insight that unlocked everything</h2>
+    <p>The answer was already in the Python ecosystem. I just needed to recognise it.</p>
+    <p>
+      Pandas. SQLAlchemy. Django's QuerySet. These are some of the most beloved Python
+      libraries ever built, and they all share the same pattern: <strong>method chaining
+        on a lazy wrapper object</strong>. You call a method, get back an object of the
+      same type, call another method, and so on. The data flows left to right. You read
+      it in the order it executes.
+    </p>
+    <p>
+      The approach sidesteps every objection that sinks a native pipe operator.
+      No parser changes. No auto-currying. No argument order debates. Just an object
+      that holds your iterable and exposes methods that return new instances of itself.
+    </p>
+    <p>The question was: why doesn't this pattern exist for plain Python iterables?</p>
+
+    <!-- Building pipeflow -->
+    <h2>Building pipeflow</h2>
+    <p>
+      I built <strong>pipeflow</strong> — a zero-dependency, fully typed, lazy stream
+      library that brings readable pipelines to any Python iterable.
+    </p>
+
+    <div class="pf-compare">
+      <div class="pf-compare-card">
+        <div class="pf-compare-hdr bad">✕ &nbsp;before — reads inside-out</div>
+        <pre><span class="nm">result</span> <span class="op">=</span> <span class="fn">list</span>(
+  <span class="fn">filter</span>(
+    <span class="kw">lambda</span> u: u[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="nm">18</span>,
+    <span class="fn">filter</span>(
+      <span class="kw">lambda</span> u: u[<span class="st">"active"</span>],
+      <span class="nm">users</span>
+    )
+  )
+)</pre>
+      </div>
+      <div class="pf-compare-card">
+        <div class="pf-compare-hdr good">✓ &nbsp;after — reads top to bottom</div>
+        <pre><span class="nm">result</span> <span class="op">=</span> (
+  <span class="fn">Stream</span>(<span class="nm">users</span>)
+  <span class="op">.</span><span class="fn">filter</span>(<span class="kw">lambda</span> u: u[<span class="st">"active"</span>])
+  <span class="op">.</span><span class="fn">filter</span>(<span class="kw">lambda</span> u: u[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="nm">18</span>)
+  <span class="op">.</span><span class="fn">to</span>(<span class="fn">list</span>)
+)</pre>
+      </div>
+    </div>
+
+    <p>
+      Every method returns a new <code>Stream</code> wrapping a Python generator —
+      nothing executes until you call a terminal method like <code>.to(list)</code>.
+      The full pipeline is built first, then evaluated once in a single pass.
+    </p>
+
+    <p class="pf-h3">A full real-world example</p>
+    <div class="pf-code-block">
+      <div class="pf-code-label">
+        <div class="pf-dots">
+          <div class="pf-dot"></div>
+          <div class="pf-dot"></div>
+          <div class="pf-dot"></div>
+        </div>
+        <span>etl_pipeline.py</span>
+      </div>
+      <pre><span class="kw">from</span> pipeflow <span class="kw">import</span> <span class="fn">Stream</span>
+
+<span class="nm">result</span> <span class="op">=</span> (
+    <span class="fn">Stream</span>(<span class="nm">raw_users</span>)
+    <span class="op">.</span><span class="fn">filter</span>(<span class="kw">lambda</span> u: u[<span class="st">"active"</span>])
+    <span class="op">.</span><span class="fn">filter</span>(<span class="kw">lambda</span> u: u[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="nm">18</span>)
+    <span class="op">.</span><span class="fn">map</span>(<span class="kw">lambda</span> u: u[<span class="st">"name"</span>].<span class="fn">upper</span>())
+    <span class="op">.</span><span class="fn">sort</span>()
+    <span class="op">.</span><span class="fn">to</span>(<span class="fn">list</span>)
+)
+<span class="cm"># ["ALICE", "DAVE"]</span></pre>
+    </div>
+
+    <p class="pf-h3">Pipe operator syntax — for those who want it</p>
+    <div class="pf-code-block">
+      <div class="pf-code-label">
+        <div class="pf-dots">
+          <div class="pf-dot"></div>
+          <div class="pf-dot"></div>
+          <div class="pf-dot"></div>
+        </div>
+        <span>pipe_syntax.py</span>
+      </div>
+      <pre><span class="kw">from</span> pipeflow <span class="kw">import</span> <span class="fn">pipe</span>, <span class="fn">to</span>
+
+<span class="cm"># Works on plain lists too — no Stream() wrapper needed</span>
+<span class="nm">result</span> <span class="op">=</span> (
+    <span class="fn">range</span>(<span class="nm">10</span>)
+    <span class="op">|</span> <span class="fn">pipe</span>(<span class="fn">filter</span>, <span class="kw">lambda</span> x: x <span class="op">%</span> <span class="nm">2</span> <span class="op">==</span> <span class="nm">0</span>)
+    <span class="op">|</span> <span class="fn">pipe</span>(<span class="fn">map</span>, <span class="kw">lambda</span> x: x <span class="op">**</span> <span class="nm">2</span>)
+    <span class="op">|</span> <span class="fn">to</span>(<span class="fn">list</span>)
+)
+<span class="cm"># [0, 4, 16, 36, 64]</span></pre>
+    </div>
+
+    <p>
+      The <code>|</code> operator overloading is done via <code>__ror__</code>, which
+      means it works on plain Python lists, generators, and ranges — not just
+      <code>Stream</code> objects.
+    </p>
+
+    <!-- What's included -->
+    <h2>What's included</h2>
+    <ul class="pf-features">
+      <li>.map(func)</li>
+      <li>.filter(func)</li>
+      <li>.flatmap(func)</li>
+      <li>.batch(n)</li>
+      <li>.unique(key)</li>
+      <li>.sort(key)</li>
+      <li>.take(n) / .skip(n)</li>
+      <li>.group_by(key)</li>
+      <li>.tap(func)</li>
+      <li>.fold(func, init)</li>
+      <li>.first() / .last()</li>
+      <li>.to(collector)</li>
+    </ul>
+
+    <p>
+      Every method is lazy. Nothing evaluates until you call a terminal like
+      <code>.to(list)</code>, <code>.count()</code>, or <code>.for_each()</code>.
+      The whole library has zero runtime dependencies and ships with complete type annotations.
+    </p>
+
+    <div class="pf-install">
+      <div>
+        <div class="pf-install-label">install</div>
+        <div class="pf-install-cmd">pip install pipeflow</div>
+      </div>
+      <div class="pf-links">
+        <a class="pf-pill" href="https://github.com/sheheryar/pipeflow" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="pf-pill" href="https://pypi.org/project/pipeflow" target="_blank" rel="noopener">PyPI ↗</a>
+      </div>
+    </div>
+
+    <!-- Reflection -->
+    <h2>What I learned from this</h2>
+    <p>
+      The most useful open source tools rarely come from inventing something new.
+      They come from noticing a gap between a real, recurring frustration and the
+      solutions people have accepted as "good enough."
+    </p>
+    <p>
+      The pipe operator debate has been running for years. The community had settled on
+      <em>this is a language limitation, live with it.</em> But the readability problem
+      and the question of whether Python should add <code>&#124;&#62;</code> are two completely
+      separate things. You can answer the second question with "no" and still solve the
+      first one.
+    </p>
+    <p>
+      That reframe — separating the language design question from the user experience
+      question — is where pipeflow came from. The best problems to solve are often
+      hiding inside arguments that have already been won.
+    </p>
+
+    <div class="pf-footer">
+      <span>Written in May 2026</span>
+      <span><a href="https://github.com/sheheryar/pipeflow">github.com/sheheryar/pipeflow</a></span>
+    </div>
+
+  </div><!-- /pf-inner -->
+</div><!-- /pf-wrap -->
+
+<script>
+  const pfBar = document.getElementById('pf-progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+    pfBar.style.width = Math.min(pct, 100) + '%';
+  });
+</script>
+{% endblock %}

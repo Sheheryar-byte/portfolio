@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="pt-52 pb-24 px-4 md:px-[100px] bg-white">
+    <div class="max-w-[1200px] mx-auto">
+        <div class="flex flex-col gap-4 mb-20">
+            <h2 class="text-brand-orange font-bold uppercase tracking-[0.2em] text-sm">Recognitions</h2>
+            <h1 class="text-5xl md:text-6xl font-extrabold text-brand-dark leading-tight">
+                Certifications & <span class="text-brand-orange italic font-extrabold">Achievements</span>
+            </h1>
+            <p class="text-brand-gray-500 text-xl max-w-2xl leading-relaxed mt-4">
+                Validating my expertise through professional experience and competitive hackathons.
+            </p>
+        </div>
+
+        <div class="flex flex-col gap-12">
+            <!-- 1. ApexFuse -->
+            <div
+                class="p-10 rounded-[40px] border-2 border-brand-gray-100 hover:border-brand-orange hover:shadow-2xl transition-all group bg-white">
+                <div class="flex flex-col md:flex-row gap-10 items-start">
+                    <a href="/static/images/apexfuse.png" target="_blank"
+                        class="w-full md:w-1/3 aspect-[4/3] rounded-3xl bg-brand-gray-50 border border-brand-gray-200 overflow-hidden relative block group hover:ring-4 hover:ring-brand-orange/20 transition-all">
+                        <img src="/static/images/apexfuse.png" alt="ApexFuse Certification"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </a>
+                    <div class="flex-1 flex flex-col gap-6 pt-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-3xl font-extrabold text-brand-dark">Python Developer Certification</h3>
+                            <span
+                                class="px-6 py-2 bg-brand-orange/10 text-brand-orange rounded-full font-bold text-sm">2024
+                                - 2025</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand-gray-700">ApexFuse (SMC-Private) Limited</h4>
+                        <p class="text-brand-gray-500 text-lg leading-relaxed">
+                            This certificate verifies my tenure as a Python Developer at ApexFuse from August 2024 to
+                            April 2025. During this period, I contributed to full-stack development projects using
+                            Django, Flask, FastAPI, Flutter, PostgreSQL, and MongoDB. My responsibilities included
+                            building Android applications, developing RESTful APIs, implementing authentication modules,
+                            and working on real-time data systems within Agile environments.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-4">
+                            {% for tag in ["Django", "FastAPI", "PostgreSQL", "Flutter"] %}
+                            <span
+                                class="px-3 py-1 bg-brand-gray-100 rounded-lg text-xs font-bold text-brand-gray-600 uppercase">{{
+                                tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. AI Genesis Hackathon -->
+            <div
+                class="p-10 rounded-[40px] border-2 border-brand-gray-100 hover:border-brand-orange hover:shadow-2xl transition-all group bg-white">
+                <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
+                    <a href="/static/images/AI_genesis.jpeg" target="_blank"
+                        class="w-full md:w-1/3 aspect-[4/3] rounded-3xl bg-brand-gray-50 border border-brand-gray-200 overflow-hidden relative block group hover:ring-4 hover:ring-brand-orange/20 transition-all">
+                        <img src="/static/images/AI_genesis.jpeg" alt="AI Genesis Hackathon"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </a>
+                    <div class="flex-1 flex flex-col gap-6 pt-4 text-right md:text-left">
+                        <div class="flex justify-between items-start flex-row-reverse md:flex-row">
+                            <h3 class="text-3xl font-extrabold text-brand-dark">AI Genesis Hackathon Participant</h3>
+                            <span
+                                class="px-6 py-2 bg-brand-orange/10 text-brand-orange rounded-full font-bold text-sm">Nov
+                                2025</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand-gray-700">LabLab AI</h4>
+                        <p class="text-brand-gray-500 text-lg leading-relaxed">
+                            This certificate represents my participation in the AI Genesis Hackathon hosted by LabLab
+                            AI, where our team built a multi-modal threat assessment web application powered by Gemini
+                            LLM. The system performed real-time analysis across text, images, video, and audio inputs to
+                            generate safety risk levels (Low to Critical).
+                        </p>
+                        <p class="text-brand-gray-400 text-base leading-relaxed italic">
+                            Tech stack: Next.js, React, TypeScript, Tailwind CSS, Node.js, Express.js, and Gemini AI.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. NAVTTC -->
+            <div
+                class="p-10 rounded-[40px] border-2 border-brand-gray-100 hover:border-brand-orange hover:shadow-2xl transition-all group bg-white">
+                <div class="flex flex-col md:flex-row gap-10 items-start">
+                    <a href="/static/images/NAVTTC.jpeg" target="_blank"
+                        class="w-full md:w-1/3 aspect-[4/3] rounded-3xl bg-brand-gray-50 border border-brand-gray-200 overflow-hidden relative block group hover:ring-4 hover:ring-brand-orange/20 transition-all">
+                        <img src="/static/images/NAVTTC.jpeg" alt="NAVTTC Internship"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </a>
+                    <div class="flex-1 flex flex-col gap-6 pt-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-3xl font-extrabold text-brand-dark">National Vocational Internship</h3>
+                            <span
+                                class="px-6 py-2 bg-brand-orange/10 text-brand-orange rounded-full font-bold text-sm">June
+                                2024</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand-gray-700">NAVTTC & SZABIST</h4>
+                        <p class="text-brand-gray-500 text-lg leading-relaxed">
+                            Internship at the National Skills Information Systems (NSIS) department. Bridge the gap
+                            between academic knowledge and professional skills under the supervision of Mr. Muhammad
+                            Arif Chandio. Sincere gratitude to SZABIST for facilitating this opportunity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Diverse Technologies -->
+            <div
+                class="p-10 rounded-[40px] border-2 border-brand-gray-100 hover:border-brand-orange hover:shadow-2xl transition-all group bg-white">
+                <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
+                    <a href="/static/images/Diverse_Technologies.png" target="_blank"
+                        class="w-full md:w-1/3 aspect-[4/3] rounded-3xl bg-brand-gray-50 border border-brand-gray-200 overflow-hidden relative block group hover:ring-4 hover:ring-brand-orange/20 transition-all">
+                        <img src="/static/images/Diverse_Technologies.png" alt="Diverse Technologies"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </a>
+                    <div class="flex-1 flex flex-col gap-6 pt-4 text-right md:text-left">
+                        <div class="flex justify-between items-start flex-row-reverse md:flex-row">
+                            <h3 class="text-3xl font-extrabold text-brand-dark">Web App Development Specialist</h3>
+                            <span
+                                class="px-6 py-2 bg-brand-orange/10 text-brand-orange rounded-full font-bold text-sm">Jan
+                                2024</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand-gray-700">Diverse Technologies</h4>
+                        <ul class="text-brand-gray-500 text-lg leading-relaxed flex flex-col gap-2">
+                            <li>• Developed responsive web applications using Next.js and FastAPI</li>
+                            <li>• Integrated AI-powered features such as automated recommendations</li>
+                            <li>• Designed modular REST APIs and optimized PostgreSQL queries</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Python Certificate -->
+            <div
+                class="p-10 rounded-[40px] border-2 border-brand-gray-100 hover:border-brand-orange hover:shadow-2xl transition-all group bg-white">
+                <div class="flex flex-col md:flex-row gap-10 items-start">
+                    <a href="/static/images/python.jpeg" target="_blank"
+                        class="w-full md:w-1/3 aspect-[4/3] rounded-3xl bg-brand-gray-50 border border-brand-gray-200 overflow-hidden relative block group hover:ring-4 hover:ring-brand-orange/20 transition-all">
+                        <img src="/static/images/python.jpeg" alt="Python Certification"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </a>
+                    <div class="flex-1 flex flex-col gap-6 pt-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-3xl font-extrabold text-brand-dark">Expertise in Python for Data Science
+                            </h3>
+                            <span
+                                class="px-6 py-2 bg-brand-orange/10 text-brand-orange rounded-full font-bold text-sm">Dec
+                                2023</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand-gray-700">Python Institute</h4>
+                        <p class="text-brand-gray-500 text-lg leading-relaxed">
+                            Comprehensive certification covering advanced Python programming, data structures, and
+                            efficient algorithm design. Specialized in applying Python for data-intensive applications
+                            and backend systems.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
